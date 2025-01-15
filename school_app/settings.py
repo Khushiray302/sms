@@ -93,11 +93,11 @@ WSGI_APPLICATION = "school_app.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':os.getenv('sms') ,
-        'USER': os.getenv('root'),
-        'PASSWORD': os.getenv('khushi123'),
-        'HOST': os.getenv('localhost'),
-        'PORT': os.getenv('3306'),
+        'NAME': 'sms',
+        'USER': 'root',
+        'PASSWORD': 'khushi123',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
