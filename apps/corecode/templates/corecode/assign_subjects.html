@@ -1,0 +1,30 @@
+<!-- templates/assign_subjects.html -->
+
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+
+{% block title %}
+Assign Subjects to Class
+{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Assign Subjects</button>
+        </form>
+
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+ </div>
+</div>
+
+{% endblock content %}

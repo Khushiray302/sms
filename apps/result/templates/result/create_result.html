@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Select Student(s) <span class="small">and then click on proceed</span>
+{% endblock title %}
+
+
+{% block content-header %}
+  <form method="GET" action=".">
+    <div class="form-group">
+      <label for="class-select">Filter by Class:</label>
+      <select name="class" id="class-select" class="form-control" onchange="this.form.submit()">
+        <option value="">-- Select Class --</option>
+        {% for class in classes %}
+          <option value="{{ class.id }}" {% if selected_class_id == class.id|stringformat:"s" %}selected{% endif %}>
+            {{ class.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+{% endblock content-header %}
+
+{% block content %}
+  <form method="POST">
+    {% csrf_token %}
+    {% comment %} <div class="card-header">
+      <h3 class="card-title">
+        <input type="submit" class="btn btn-success" value="Proceed >">
+      </h3>
+    </div> {% endcomment %}
+
+    <table id="studenttable" class="table table-sm table-bordered" data-page-length='100'>
+      <thead class="thead-light">
+        <tr>
+          <th><input type="checkbox" id="selecter"></th>
+          <th>Name</th>
+          <th>Current Class</th>
+          <th>Roll no</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+          <tr>
+            <td><input type="checkbox" id="{{ student.id }}" name="students" value="{{ student.id }}"></td>
+            <td>{{ student }}</td>
+            <td>{{ student.current_class }}</td>
+            <td>{{ student.roll_no }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <input type="submit" class="btn btn-success mt-2" value="Proceed >">
+  </form>
+{% endblock content %}
+
+
+{% block morejs %}
+<script>
+  $('#studenttable').DataTable({
+    "ordering": false
+  });
+
+  $("#selecter").change(function () {
+    if (this.checked) {
+      $('input[name="students"]').prop('checked', true);
+    }
+    else {
+      $('input[name="students"]').prop('checked', false);
+    }
+  });
+
+  // Fetch students based on selected class
+  document.getElementById("classDropdown").addEventListener("change", function () {
+    const classId = this.value;
+    const tbody = document.getElementById("studentTableBody");
+
+    // Clear existing rows
+    tbody.innerHTML = "";
+
+    if (classId) {
+      fetch(`?class_id=${classId}`)
+        .then(response => response.json())
+        .then(data => {
+          data.students.forEach(student => {
+            const row = `<tr>
+              <td><input type="checkbox" id="${student.id}" name="students" value="${student.id}"></td>
+              <td>${student.name}</td>
+              <td>${student.current_class__name}</td>
+            </tr>`;
+            tbody.insertAdjacentHTML("beforeend", row);
+          });
+        })
+        .catch(error => console.error("Error fetching students:", error));
+    }
+  });
+</script>
+
+{% endblock morejs %}

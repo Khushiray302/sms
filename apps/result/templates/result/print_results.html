@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Results</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <style>
+        @media print {
+            
+            body {
+                color: navy-blue;
+                {% comment %} border: 5px double black; /* Adds a double border */ {% endcomment %}
+                padding: 10px;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+            #print-section, #print-section * {
+                visibility: visible; /* Show only the print section */
+            }
+
+            #print-section {
+            
+                width: 100%;
+                border: 2px solid black; /* Border for the entire print section */
+                padding: 10px; /* Padding inside the border */
+                box-sizing: border-box;
+
+                visibility: visible; /* Show only the print section */
+                position: relative;
+                
+                
+            }
+            #grade-point-table {
+                position: absolute;
+                
+                left: 0; /* Align to left */
+                padding: 30px;
+                margin-right: 5px; /* Add space on the right */
+            }
+            #grade-point-table table {
+                margin-left: -0.2%;
+                border: 2px solid #000;
+                width: 139.8%;
+                margin-top: -2.5%;/* Table adjusts to content */
+            }
+            #grade-point-table th, #grade-point-table tr, #grade-point-table td {
+                border: 2px solid black;
+                padding-top: 5px ;
+                padding-left: 25px ;
+                padding-right: 25px ;
+                text-align: center;
+            }
+            #signature {
+                
+                margin-top:43%;
+                top:100%;
+                 /* Align signatures at the bottom */
+                left: 0;
+                width: 100%;
+                text-align: center;
+            }
+            #signature table {
+                width: 100%;
+                border: 0;
+            }
+            #signature td {
+                padding: 5px;
+                text-align: center;
+                font-size: 24px;
+            }
+            .all {
+                margin: 5mm;
+                page-break-inside: avoid;
+                box-shadow: 0 0 5px rgba(0,0,0,0.5);
+                {% comment %} border: 5px solid #000; {% endcomment %}
+                border: 5px double black;
+            }
+
+
+            .header {
+                
+                margin-bottom: 20px;
+            }
+            .std p{
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+           
+            p {
+                font-size: 24px;
+                padding-left: 20px;
+            }
+            .grd p{
+                font-size: 24px;
+                padding-left: 15px;
+            }
+            
+            .card-body {
+                font-size: 18px; /* Increase text size */
+                padding: 16px; /* Add padding to the card body */
+            }
+            
+            /* Target table inside card-body */
+            .card-body .table {
+                width: 100%;
+                font-size: 18px;
+                border-collapse: collapse;
+            }
+            
+            /* Styling table headers and cells */
+            .card-body .table th,
+            .card-body .table td {
+                padding: 12px;
+                text-align: center;
+                {% comment %} border: 1px solid black; {% endcomment %}
+            }
+            
+            /* Header row background color */
+            .card-body .table thead th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+                {% comment %} border: 2px solid black; {% endcomment %}
+            }
+            
+            /* Hover effect for rows */
+            .card-body .table tbody tr:hover {
+                background-color: #f9f9f9;
+            }
+            .all {
+                margin: 5mm;
+                page-break-inside: avoid;
+                box-shadow: 0 0 5px rgba(0,0,0,0.5);
+                {% comment %} border: 5px solid #000; {% endcomment %}
+                border: 5px double black;
+            }
+            .remarks{
+                padding-top:0px;
+                margin-top:0px;
+            }
+            .remarks p{
+                font-size: 20px;
+                margin:0;
+                padding-left:20px;
+        
+            }
+            
+            .header img {
+                margin: 22px 830px -230px 15px;
+                top: 70px;
+                left: 70px;
+                width: 150px; /* Adjust the size as needed */
+                height: auto;
+            } 
+        
+        }
+
+        body {
+            
+            color: navy-blue;
+            {% comment %} border: 5px double black; /* Adds a double border */ {% endcomment %}
+            padding: 10px;
+            
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        #print-section, #print-section * {
+            visibility: visible; /* Show only the print section */
+        }
+
+        #print-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border: 2px solid black; /* Border for the entire print section */
+            padding: 10px; /* Padding inside the border */
+            box-sizing: border-box;
+        }
+        #grade-point-table {
+            position: absolute;
+            
+            left: 0; /* Align to left */
+            padding: 50px;
+            margin-right: 5px; /* Add space on the right */
+        }
+        #grade-point-table table {
+            
+            margin-left: -0.2%;
+            border: 2px solid #000;
+            width: 139.8%;
+            margin-top: -2.5%; Table adjusts to content */
+        }
+        #grade-point-table th {
+            border: 2px solid black;
+            padding-top: 5px ;
+            padding-left: 25px ;
+            padding-right: 25px ;
+            text-align: center;
+        }
+        #grade-point-table td {
+            border: 2px solid black;
+            padding-top: 5px ;
+            padding-left: 25px ;
+            padding-right: 25px ;
+            text-align: center;
+        }
+        #signature {
+            
+            margin-top:43%;
+            top:100%;
+             /* Align signatures at the bottom */
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+        #signature table {
+            width: 100%;
+            border: 0;
+        }
+        #signature td {
+            padding: 5px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .all {
+            margin: 5mm;
+            page-break-inside: avoid;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            {% comment %} border: 5px solid #000; {% endcomment %}
+            border: 5px double black;
+        }
+
+
+        .header {
+            
+            margin-bottom: 20px;
+        }
+        .std p{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+       
+        p {
+            font-size: 24px;
+            padding-left: 20px;
+        }
+        .grd p{
+            font-size: 24px;
+            padding-left: 15px;
+        }
+        .card-body {
+            font-size: 18px; /* Increase text size */
+            padding: 16px; /* Add padding to the card body */
+        }
+        
+        /* Target table inside card-body */
+        .card-body .table {
+            width: 100%;
+            font-size: 18px;
+            border-collapse: collapse;
+        }
+        
+        /* Styling table headers and cells */
+        .card-body .table th,
+        .card-body .table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        /* Header row background color */
+        .card-body .table thead th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        /* Hover effect for rows */
+        .card-body .table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+        .all {
+            margin: 5mm;
+            page-break-inside: avoid;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            {% comment %} border: 5px solid #000; {% endcomment %}
+            border: 5px double black;
+        }
+        .remarks{
+            padding-top:0px;
+            margin-top:0px;
+        }
+        .remarks p{
+            font-size: 20px;
+            margin:0;
+            padding-left:20px;
+    
+        }
+        .header p,h3{
+            margin:0;
+            padding:0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .std p{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: -25px;
+        }
+       
+        p {
+            font-size: 24px;
+            padding-left: 20px;
+        }
+        .grd p{
+            font-size: 24px;
+            padding-left: 15px;
+        }
+        .card-body {
+            font-size: 18px; /* Increase text size */
+            padding: 16px; /* Add padding to the card body */
+        }
+        
+        /* Target table inside card-body */
+        .card-body .table {
+            width: 100%;
+            font-size: 18px;
+            border-collapse: collapse;
+        }
+        
+        /* Styling table headers and cells */
+        .card-body .table th,
+        .card-body .table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        /* Header row background color */
+        .card-body .table thead th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        /* Hover effect for rows */
+        .card-body .table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+        .all {
+            margin: 5mm;
+            page-break-inside: avoid;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            {% comment %} border: 5px solid #000; {% endcomment %}
+            border: 5px double black;
+        }
+        
+        .header p,h3{
+            margin:0;
+            padding:0;
+        }
+        {% comment %} .xyz{
+            {% comment %} background: black;
+            width:1100px; 
+            height:1123px;
+        } {% endcomment %}
+
+
+        first {
+            display: flex;
+            min-height: 100vh; /* Ensure full viewport height */
+        }
+
+        .xyz {
+            width: 290mm; /* A4 width */
+            height: 312mm; /* A4 height */
+            background: white; /* White background for the content */
+            padding: 0mm; /* Padding for content inside the page */
+            box-sizing: border-box; /* Include padding in dimensions */
+        }
+        .header img {
+            margin: 22px 830px -230px 15px;
+            top: 70px;
+            left: 70px;
+            width: 150px; /* Adjust the size as needed */
+            height: auto;
+        }
+
+    </style>
+</head>
+<body>
+ <div class="first">
+    <div class="xyz" >
+    {% for key, result in results.items %}
+        <div class="all">
+            <div class="student-result">
+                <div class="header">
+                    <img src="{{ logo_url}}" alt="Logo"> 
+                    <p>{{ school_slogan | default:"We ensure quality Education and Discipline" }}</p>
+                    <h1>{{ school_name | default:"MySchool" }}</h1>
+                    <p>{{ school_address | default:"Nepal" }}</p>
+                    <h3>{{ current_term }}inal Examination  </br>{{ current_session }}</h3>
+                    <h3>Grade Sheet</h3>
+                </div>
+                {% comment %} <div style="border: 1px solidrgb(73, 77, 81); margin: 0% 1.5% -3% 1.5%;"> {% endcomment %}
+                    <div class="row std" style="border: 1px solid black; margin: 0% 1.5% -1% 1.5%;">
+                        <div class="col-6" >
+                            <p style= "margin-bottom: -20px; margin-top: -1px;"><strong>NAME:</strong> {{ result.student }}</p>
+                            <p style= "margin-bottom: -2px;"><strong>CLASS:</strong> {{ result.student.current_class }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Roll no:</strong> {{ result.student.roll_no }}</p>
+                        </div>
+                    </div>
+                {% comment %} </div> {% endcomment %}
+                {% comment %} <div class="std">
+                    <p><strong>NAME:</strong> {{ result.student }}</p>
+                    <p><strong>CLASS:</strong> {{ result.student.current_class }}</p>
+                </div> {% endcomment %}
+                <div class="card-body">
+                    <table class="table table-bordered table-sm" style="border: 2px solid black;">
+                        <thead class="thead-light" style="border: 1px solid black;">
+                            <tr style="border: 1px solid black;">
+                                <th rowspan="2" style="border: 2px solid black;">S.N.</th>
+                                <th rowspan="2" style="border: 2px solid black;">Subject</th>
+                                <th colspan="2" style="border: 2px solid black;">Obtained Grade</th>
+                                <th rowspan="2" style="border: 2px solid black;">Final Grade</th>
+                                <th rowspan="2" style="border: 2px solid black;">Grade Point</th>
+                                <th rowspan="2" style="border: 2px solid black;">Highest Grade</th>
+                            </tr>
+                            <tr>
+                                <th style="border: 2px solid black;">Practical </th>
+                                <th style="border: 2px solid black;">Theory </th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            {% for subject in result.subjects %}
+                            <tr>
+                                <td >{{ forloop.counter }}</td>
+                                <td >{{ subject.subject }}</td>
+                                
+                                <td >{{ subject.pract_grade }}</td>
+                                <td >{{ subject.theory_grade }}</td>
+                                <td >{{ subject.total_grade }}</td>
+                                <td >{{ subject.total_gpa }}</td>
+                                <td > A+ </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        
+                    </table>
+                </div>
+                {% comment %} <div class="grd" style="border: 2px solid black; padding-top: 1%; padding-right: 3%; text-align: right;">
+                    <p style= "margin: -3.1% 1.5% 3% 1.5%"><strong>Attendance:</strong> {{ result.student.attendance }}</p>
+                </div> {% endcomment %}
+                {% comment %} <div class="grd" style="border: 2px solid black; margin: -3.2% 1.5% -2% 1.5%; padding-top: 1%; padding-right: 3%;    padding-bottom: 1%; ">
+                    <p style= "margin: 0% 49.8% -3% 0.5%; border: 2px solid black;"><strong>Attendance:</strong> {{ result.student.attendance }}</p>
+                    <p  style= "text-align: right; border: 2px solid black; margin: -4% -2% 0% 50%">Grade Point Average (GPA) : {{ result.final_grade }} ( {{result.f_grade}})</p>
+                    
+                </div> {% endcomment %}
+                <div id="attend">
+                    <table style="margin-left: 1.5%; margin-bottom: -28px; margin-top: -30px; width: 97%; border-collapse: collapse; border: 2px solid black;">
+                        <thead>
+                            <tr style="border: 1px solid black;"> 
+                                <th style="border: 1px solid black; text-align: left; padding: 8px;">Attendance</th> 
+                                <th style="border: 1px solid black; text-align: left; padding: 8px;">{{ result.student.attendance }}</th>
+                                <th style="text-align: right; ">Grade Point Average (GPA) : {{ result.final_grade }} ( {{result.f_grade}})</th> 
+                            </tr>
+                        </thead>
+                    </table>
+                </div >
+                <div id="grade-point-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Grade</th>
+                                <th>A+</th>
+                                <th>A</th>
+                                <th>B+</th>
+                                <th>B</th>
+                                <th>C+</th>
+                                <th>C</th>
+                                <th>D</th>
+                                <th>NG</th>
+                                {% comment %} <th style="border-left: none; text-align: center;" >Grade Point Average (GPA) : {{ result.final_grade }} ( {{result.f_grade}})</th>  {% endcomment %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="white-space: nowrap;"><strong>Grade Point</strong></td>
+                                <td>4.0</td>
+                                <td>3.6</td>
+                                <td>3.2</td>
+                                <td>2.8</td>
+                                <td>2.4</td>
+                                <td>2.0</td>
+                                <td>1.6</td>
+                                <td>-</td>
+                                {% comment %} <td ></td> {% endcomment %}
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row" style="font-size: 18px; padding-top: 20px;">
+                        <div class="col-6 d-flex align-items-center justify-content-center">
+                          <p>*AB: ABSENT</p>
+                        </div>
+                        <div class="col-6 d-flex align-items-center justify-content-center">
+                          <p>*EXP: EXPELLED</p>
+                        </div>
+                      </div>
+                    <div class="remarks">
+                        <p>Remarks: {{result.remark}}.</p>
+                        <p>DATE OF ISSUE: 2081-04-11</p>
+                    </div>
+                </div>
+                
+                <!-- Signatures Section -->
+                <div id="signature">
+                    <table>
+                        
+                            <tr>
+                                <td>___________________</td>
+                                <td>___________________</td>
+                                <td>___________________</td>
+                            </tr>
+                            <tr>
+                                <td>Exam Controller</td>
+                                <td>Class Teacher</td>
+                                <td>Principal</td>
+                            </tr>
+                        
+                    </table>
+                </div>
+                
+            </div>   
+                <div class="page-break"></div>
+            
+        </div>
+    {% endfor %}
+    </div>
+</div>   
+    <script>
+        window.onload = function () {
+            window.print();
+        };
+    </script>
+</body>
+</html>

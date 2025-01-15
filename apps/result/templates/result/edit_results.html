@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% comment %} {% load widget_tweaks %}
+
+{% block title %}
+Update Results
+{% endblock title %}
+
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  {{ formset.management_form }}
+
+  <table id="studenttable" class="table table-sm">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Student</th>
+        <th>Subject</th>
+        <th>Full Practical</th>
+        <th>Full Theory</th>
+        <th>Obtained Practical</th>
+        <th>Obtained Theory</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for form in formset %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ form.instance.student }}</td>
+          <td>{{ form.instance.subject }}</td>
+          <td style="width: 10%;">
+            {{ form.full_pract_score | add_class:"form-control form-control-sm" }}
+          </td>
+          <td style="width: 10%;">
+            {{ form.full_theory_score | add_class:"form-control form-control-sm" }}
+          </td>
+          <td style="width: 10%;">
+            {{ form.obt_pract_score | add_class:"form-control form-control-sm" }}
+          </td>
+          <td style="width: 10%;">
+            {{ form.obt_theory_score | add_class:"form-control form-control-sm" }}
+          </td>
+          <td>{{ form.DELETE }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <button type="submit" class="btn btn-success">Save</button>
+</form>
+{% endblock content %} {% endcomment %}
+
+
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+{% load widget_tweaks %}
+
+{% block title %}
+Update Results
+{% endblock title %}
+
+
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  {{ formset.management_form }}
+
+  <div class="table-responsive">
+    <table id="studenttable" class="table table-sm table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Student</th>
+          <th>Subject</th>
+          <th>Full Practical</th>
+          <th>Full Theory</th>
+          <th>Obtained Practical</th>
+          <th>Obtained Theory</th>
+          <th>Delete</th>
+          <th>Class</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for form in formset %}
+          {{ form.id }}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ form.instance.student }}</td>
+            <td>{{ form.instance.subject }}</td>
+            <td>
+              {{ form.full_pract_score | add_class:"form-control form-control-sm" }}
+            </td>
+            <td>
+              {{ form.full_theory_score | add_class:"form-control form-control-sm" }}
+            </td>
+            <td>
+              {{ form.obt_pract_score | add_class:"form-control form-control-sm" }}
+            </td>
+            <td>
+              {{ form.obt_theory_score | add_class:"form-control form-control-sm" }}
+            </td>
+            <td>{{ form.DELETE }}</td>
+            <td>{{ form.instance.current_class }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <input type="submit" class="btn btn-success" value="Save">
+</form>
+{% endblock content %}
+

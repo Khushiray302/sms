@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block fullcard %}
+
+<button class="btn btn-primary" onclick="window.location.href='{% url 'print_results' %}?class_id={{ selected_class_id }}&search={{ search }}'">
+  Print Results
+</button>
+
+
+
+<div class="d-flex">
+  <div class="mb-3">
+    <!-- Dropdown for selecting class -->
+    <form method="get" action="">
+      <label for="classSelect">Select Class:</label>
+      <select id="classSelect" name="class_id" class="form-control" onchange="this.form.submit()">
+        <option value="">All Classes</option>
+        {% for class in all_classes %}
+          <option value="{{ class.id }}" {% if class.id == selected_class_id %}selected{% endif %}>
+            {{ class.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+
+  <!-- Search Form -->
+  <div class="mb-3 ">
+    <form method="get" action="{% url 'view-results' %}">
+      <label for="search">Search by Name:</label>
+      <div class="row gx-2 align-items-center">
+        <div class="col">
+          <input
+            type="text"
+            id="search"
+            name="search"
+            class="form-control"
+            value="{{ request.GET.search }}"
+            placeholder="Enter student name"
+          />
+        </div>
+        <div class="col-auto">
+          <input type="hidden" name="class_id" value="{{ selected_class_id }}">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+</div>
+
+
+
+
+
+<div id="table">
+  {% for key, result in results.items %}
+    <div class="card mb-4">
+      <div class="card-header">
+        {{ result.student }} - Roll no: {{result.student.roll_no}} - GPA: {{ result.final_grade }}
+        {% comment %} <input type="checkbox" class="select-all" /> {% endcomment %}
+        {% comment %} <input type="checkbox" class="select-item" value="{{ result.id }}" /> {% endcomment %}
+        
+      </div>
+      
+      <div class="card-body">
+        <table class="table table-bordered table-sm">
+          <thead class="thead-light">
+            <tr>
+              <th>#</th>
+              <th>Subject</th>
+              <th>Practical</th>
+              <th>Theory</th>
+              <th>Total Marks</th>
+              <th>Practical GPA</th>
+              <th>Theory GPA</th>
+              <th>Final GPA</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for subject in result.subjects %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ subject.subject }}</td>
+                <td>{{ subject.obt_pract_score }} / {{ subject.full_pract_score }}</td>
+                <td>{{ subject.obt_theory_score }} / {{ subject.full_theory_score }}</td>
+                <td>{{ subject.obt_pract_score|add:subject.obt_theory_score }}/ {{ subject.full_pract_score|add:subject.full_theory_score }}</td>
+                <td>{{ subject.pract_grade }}</td>
+                <td>{{ subject.theory_grade }}</td>
+                <td>{{ subject.total_grade }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">Totals</td>
+              <td>{{ result.total_obt_pract_score }} / {{ result.total_full_pract_score }}</td>
+              <td>{{ result.total_obt_theory_score }} / {{ result.total_full_theory_score }}</td>
+              <td>{{ result.total_obt_pract_score|add:result.total_obt_theory_score }}</td>
+              <td colspan="3"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  // Function to handle "Select All" checkbox toggle
+  document.querySelector('.select-all').addEventListener('change', function(e) {
+    const checkboxes = document.querySelectorAll('.select-item');
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = e.target.checked;
+    });
+  });
+
+  // Function to handle printing selected results
+  function printSelectedResults() {
+    let selectedCheckboxes = document.querySelectorAll('.select-item:checked');
+    
+    // If no checkboxes are selected, select all
+    if (selectedCheckboxes.length === 0) {
+      const checkboxes = document.querySelectorAll('.select-item');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = true;
+      });
+      selectedCheckboxes = checkboxes; // Update selection to include all checkboxes
+      alert('No rows were selected. All rows have been selected for printing.');
+    }
+
+    const selectedIds = Array.from(selectedCheckboxes).map(cb => cb.value).join(',');
+    const url = `{% url 'print_results' %}?selected_ids=${selectedIds}`;
+    window.open(url, '_blank');
+  }
+</script>
+{% endblock %}
+ 
+ 
