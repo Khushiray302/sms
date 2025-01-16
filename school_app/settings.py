@@ -25,8 +25,8 @@ SECRET_KEY = "__$1ud47e&nyso5h5o3fwnqu4+hfqcply9h$k*h2s34)hn5@nc"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
-
+# ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -96,8 +96,11 @@ DATABASES = {
         'NAME': 'sms',
         'USER': 'root',
         'PASSWORD': 'khushi123',
-        'HOST': 'localhost',
+        'HOST': '%',
         'PORT': '3306',
+        'OPTIONS': {
+            'auth_plugin': 'mysql_native_password',  # Specify authentication plugin
+        },
     }
 }
 
