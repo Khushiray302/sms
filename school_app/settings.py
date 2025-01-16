@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': 'sms',
         'USER': 'root',
         'PASSWORD': 'khushi123',
-        'HOST': '216.198.79.1',
+        'HOST': '0.0.0.0',
         'PORT': '3306',
         'OPTIONS': {
             # 'auth_plugin': 'mysql_native_password',  # Specify authentication plugin
